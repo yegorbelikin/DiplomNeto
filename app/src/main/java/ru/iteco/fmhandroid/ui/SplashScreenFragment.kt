@@ -139,8 +139,11 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
         onFullScreen()
 
+        ru.iteco.fmhandroid.EspressoIdlingResources.increment() //счетчик вкл
+
         lifecycleScope.launch {
             authViewModel.nonAuthorizedEvent.collectLatest {
+                ru.iteco.fmhandroid.EspressoIdlingResources.decrement() //счетчик выкл
                 val action = SplashScreenFragmentDirections
                     .actionSplashScreenFragmentToAuthFragment()
                 findNavController().navigate(action)
@@ -149,6 +152,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
         lifecycleScope.launch {
             authViewModel.authorizedEvent.collectLatest {
+                ru.iteco.fmhandroid.EspressoIdlingResources.decrement() //счетчик выкл
                 findNavController().navigate(R.id.action_splashScreenFragment_to_mainFragment)
             }
         }

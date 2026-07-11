@@ -15,11 +15,13 @@ android {
 
     defaultConfig {
         applicationId "ru.iteco.fmhandroid"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 32
         versionCode 14
         versionName "1.0.0"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
+
 
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -47,6 +49,10 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.7.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0-alpha05'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4-alpha05'
+    androidTestImplementation 'io.qameta.allure:allure-kotlin-android:2.4.0'
     def retrofit_version = "2.9.0"
     def retrofit_gson_version = "2.9.0"
     def okhttp_logging_version = "4.9.2"
@@ -91,4 +97,10 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+
+
+
+
+
 }
