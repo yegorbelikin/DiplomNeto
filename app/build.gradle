@@ -20,8 +20,11 @@ android {
         versionCode 14
         versionName "1.0.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-    }
 
+    }
+    testOptions {
+        animationsDisabled = true
+    }
 
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -98,6 +101,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
 
 
