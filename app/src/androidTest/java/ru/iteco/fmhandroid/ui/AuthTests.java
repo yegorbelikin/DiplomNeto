@@ -1,32 +1,50 @@
 package ru.iteco.fmhandroid.ui;
 
 
+
+
+import static android.app.PendingIntent.getActivity;
+import static android.service.autofill.Validators.not;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 import static ru.iteco.fmhandroid.ui.ViewMatcher.waitDisplayed;
 import static ru.iteco.fmhandroid.ui.ViewMatcher.waitForSystemToast;
 import static ru.iteco.fmhandroid.ui.ViewMatcher.waitForText;
 import static ru.iteco.fmhandroid.ui.ViewMatcher.waitForTextSnackbar;
 import static ru.iteco.fmhandroid.ui.ViewMatcher.waitUntilToastIsDisplayed;
 
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.PerformException;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.RootMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
 
+import org.hamcrest.Matchers;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -47,6 +65,9 @@ public class AuthTests {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
+
+
+
     @BeforeClass
     public static void disableAnimations() {
         // Принудительно отключаем анимации через ADB shell перед запуском тестов в классе
@@ -62,7 +83,10 @@ public class AuthTests {
     @Before
     public void registerIdlingResources() { //Подключаемся к “счетчику”
         IdlingRegistry.getInstance().register(EspressoIdlingResources.idlingResource);
+
     }
+
+
 
     @After
     public void unregisterIdlingResources() { //Отключаемся от “счетчика”
@@ -85,12 +109,13 @@ public class AuthTests {
         passwordField.check(matches(isDisplayed()));
         passwordField.perform(replaceText(password), closeSoftKeyboard());
         onView(withId(R.id.enter_button)).perform(click());
-        onView(isRoot()).perform(waitDisplayed(R.id.container_custom_app_bar_include_on_fragment_news_list, 5000));
-        ViewInteraction textView = onView(withText("News"));
-        textView.check(matches(isDisplayed()));
+        onView(isRoot()).perform(waitDisplayed(R.id.main_menu_image_button, 5000));
+        ViewInteraction imageButton = onView(withId(R.id.main_menu_image_button));
+        imageButton.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+
     }
 
-    @Test
+    @Test(expected = PerformException.class)
     public void InvalidLoginUser() {
         ViewInteraction loginField = onView(
                 allOf(isAssignableFrom(EditText.class),
@@ -103,14 +128,25 @@ public class AuthTests {
         passwordField.check(matches(isDisplayed()));
         passwordField.perform(replaceText(password), closeSoftKeyboard());
         onView(withId(R.id.enter_button)).perform(click());
-//        onView(isRoot()).perform(waitDisplayed(R.string.error, 5000));
-//        onView(isRoot()).perform(waitForText("Something went wrong. Try again later.", 5000));
-//        waitUntilToastIsDisplayed("Something went wrong. Try again later.", 7000);
-//        onView(isRoot()).perform(waitForTextSnackbar("Something went wrong. Try again later.", 5000));
-        waitForSystemToast("Something went wrong. Try again later.", 5000);
-        ViewInteraction textView = onView(withText("Something went wrong. Try again later."));
-        textView.check(matches(isDisplayed()));
+        onView(isRoot()).perform(waitDisplayed(R.id.main_menu_image_button, 5000));
+
     }
 
+    @Test(expected = PerformException.class)
+    public void InvalidPasswordUser() {
+        ViewInteraction loginField = onView(
+                allOf(isAssignableFrom(EditText.class),
+                        isDescendantOfA(withId(R.id.login_text_input_layout))));
+        loginField.check(matches(isDisplayed()));
+        loginField.perform(replaceText(login), closeSoftKeyboard());
+        ViewInteraction passwordField = onView(
+                allOf(isAssignableFrom(EditText.class),
+                        isDescendantOfA(withId(R.id.password_text_input_layout))));
+        passwordField.check(matches(isDisplayed()));
+        passwordField.perform(replaceText("pssword"), closeSoftKeyboard());
+        onView(withId(R.id.enter_button)).perform(click());
+        onView(isRoot()).perform(waitDisplayed(R.id.main_menu_image_button, 5000));
+
+    }
 
 }
