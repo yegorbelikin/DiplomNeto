@@ -52,12 +52,13 @@ import org.junit.runner.RunWith;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import ru.iteco.fmhandroid.EspressoIdlingResources;
 import ru.iteco.fmhandroid.R;
 
 @LargeTest
-@RunWith(AndroidJUnit4.class)
-public class NewsTests {
+@RunWith(AllureAndroidJUnit4.class)
+public class NewsTests extends BaseTest {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -80,7 +81,32 @@ public class NewsTests {
 
     }
 
+//    @Before
+//    public void resetAppState() {
+//// Очистка данных приложения
+//        InstrumentationRegistry.getInstrumentation()
+//                .getUiAutomation()
+//                .executeShellCommand("pm clear ru.iteco.fmhandroid");
+//    }
 
+//    @Before
+//    public void logoutIfNeeded() {
+//        try {
+//// Проверяем, есть ли кнопка выхода (значит мы залогинены)
+//            onView(withId(R.id.authorization_image_button))
+//                    .check(matches(isDisplayed()));
+//
+//            // Если залогинены — выходим
+//            onView(withId(R.id.authorization_image_button)).perform(click());
+//            onView(withText("Log out")).perform(click());
+//
+//            // Ждём возврата на экран логина
+//            onView(withId(R.id.enter_button))
+//                    .check(matches(isDisplayed()));
+//        } catch (Exception e) {
+//            // Если кнопки нет — значит уже на экране логина
+//        }
+//    }
 
     @After
     public void unregisterIdlingResources() { //Отключаемся от “счетчика”
@@ -119,28 +145,24 @@ public class NewsTests {
         onView(withId(R.id.all_news_text_view)).perform(click());
         onView(withId(R.id.edit_news_material_button)).perform(click());
         onView(withId(R.id.add_news_image_view)).perform(click());
-        onView(withId(R.id.news_item_publish_date_text_input_edit_text))
-                .perform(clearText(), closeSoftKeyboard());
         onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Массаж")))
                 .inRoot(isPlatformPopup()).perform(click());
-        onView(withId(R.id.news_item_title_text_input_edit_text)).perform(click()).perform(replaceText("Massage"));;
-        onView(withId(R.id.news_item_publish_date_text_input_edit_text))
-                .perform(clearText(), closeSoftKeyboard());
+        onView(withId(R.id.news_item_title_text_input_edit_text)).perform(click())
+                .perform(replaceText("Massage"));
+
         onView(withId(R.id.news_item_publish_date_text_input_edit_text)).perform(click());
         onView(withClassName(equalTo(DatePicker.class.getName())))
                 .perform(PickerActions.setDate(year,month,day));
         onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.news_item_publish_date_text_input_edit_text))
-                .perform(clearText(), closeSoftKeyboard());
+
         onView(withId(R.id.news_item_publish_time_text_input_edit_text)).perform(click());
         onView(withClassName(equalTo(TimePicker.class.getName())))
                 .perform(PickerActions.setTime(hour, minute));
         onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.news_item_description_text_input_edit_text)).perform(click());
-        onData(allOf(is(instanceOf(String.class)), is("Тайский массаж")))
-                .inRoot(isPlatformPopup()).perform(click());
-        onView(withId(R.id.save_button)).perform(click());
+        onView(withId(R.id.news_item_description_text_input_edit_text)).perform(click())
+                .perform(replaceText("Тайский массаж"));
+                onView(withId(R.id.save_button)).perform(click());
 
 
 
