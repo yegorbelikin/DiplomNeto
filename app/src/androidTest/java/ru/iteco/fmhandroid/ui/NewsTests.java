@@ -40,6 +40,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.UiDevice;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -81,13 +83,7 @@ public class NewsTests extends BaseTest {
 
     }
 
-//    @Before
-//    public void resetAppState() {
-//// Очистка данных приложения
-//        InstrumentationRegistry.getInstrumentation()
-//                .getUiAutomation()
-//                .executeShellCommand("pm clear ru.iteco.fmhandroid");
-//    }
+
 
 //    @Before
 //    public void logoutIfNeeded() {
@@ -122,13 +118,28 @@ public class NewsTests extends BaseTest {
     public void createNewsTest() {
         TimeZone timeZone = TimeZone.getTimeZone("Asia/Yekaterinburg");
         Calendar calendar = Calendar.getInstance(timeZone);
-        calendar.add(Calendar.MONTH, 1);
+//        calendar.add(Calendar.MONTH, 1);
         calendar.add(Calendar.HOUR_OF_DAY, 1);
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
+//        try {
+//// Проверяем, есть ли кнопка выхода (значит мы залогинены)
+//            onView(withId(R.id.authorization_image_button))
+//                    .check(matches(isDisplayed()));
+//
+//            // Если залогинены — выходим
+//            onView(withId(R.id.authorization_image_button)).perform(click());
+//            onView(withText("Log out")).perform(click());
+//
+//            // Ждём возврата на экран логина
+//            onView(withId(R.id.enter_button))
+//                    .check(matches(isDisplayed()));
+//        } catch (Exception e) {
+//            // Если кнопки нет — значит уже на экране логина
+//        }
         ViewInteraction loginField = onView(
                 allOf(isAssignableFrom(EditText.class),
                         isDescendantOfA(withId(R.id.login_text_input_layout))));
@@ -178,7 +189,8 @@ public class NewsTests extends BaseTest {
 //                        withParent(withParent(withId(R.id.news_item_material_card_view))),
 //                        isDisplayed()));
 //        textView.check(matches(withText("massage")));
-    }}
+    }
+}
 
 
 

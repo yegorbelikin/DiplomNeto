@@ -151,4 +151,34 @@ public class AuthTests {
 
     }
 
+    @Test
+    public void InvalidPasswordUser2() {
+        ViewInteraction loginField = onView(
+                allOf(isAssignableFrom(EditText.class),
+                        isDescendantOfA(withId(R.id.login_text_input_layout))));
+        loginField.check(matches(isDisplayed()));
+        loginField.perform(replaceText(login), closeSoftKeyboard());
+        ViewInteraction passwordField = onView(
+                allOf(isAssignableFrom(EditText.class),
+                        isDescendantOfA(withId(R.id.password_text_input_layout))));
+        passwordField.check(matches(isDisplayed()));
+        passwordField.perform(replaceText("pssword"), closeSoftKeyboard());
+        onView(withId(R.id.enter_button)).perform(click());
+//        onView(withId(com.google.android.material.R.id.snackbar_text))
+//                .check(matches(withText("Something went wrong. Try again later.")));
+//                  .check(matches(withText("Неверный логин или пароль")));
+
+//        onView(withText("Something went wrong. Try again later."))
+//                .check(matches(isDisplayed()));
+
+//        onView(withId(android.R.id.message))
+//                .check(matches(withText("Something went wrong. Try again later.")));
+//
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+                .check(matches(withText("Something went wrong. Try again later.")));
+
+    }
+
+
+
 }
