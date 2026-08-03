@@ -125,34 +125,8 @@ public class NewsTests extends BaseTest {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
-//        try {
-//// Проверяем, есть ли кнопка выхода (значит мы залогинены)
-//            onView(withId(R.id.authorization_image_button))
-//                    .check(matches(isDisplayed()));
-//
-//            // Если залогинены — выходим
-//            onView(withId(R.id.authorization_image_button)).perform(click());
-//            onView(withText("Log out")).perform(click());
-//
-//            // Ждём возврата на экран логина
-//            onView(withId(R.id.enter_button))
-//                    .check(matches(isDisplayed()));
-//        } catch (Exception e) {
-//            // Если кнопки нет — значит уже на экране логина
-//        }
-        ViewInteraction loginField = onView(
-                allOf(isAssignableFrom(EditText.class),
-                        isDescendantOfA(withId(R.id.login_text_input_layout))));
-        loginField.check(matches(isDisplayed()));
-        loginField.perform(replaceText(login), closeSoftKeyboard());
-        ViewInteraction passwordField = onView(
-                allOf(isAssignableFrom(EditText.class),
-                        isDescendantOfA(withId(R.id.password_text_input_layout))));
-        passwordField.check(matches(isDisplayed()));
-        passwordField.perform(replaceText(password), closeSoftKeyboard());
-        onView(withId(R.id.enter_button)).perform(click());
-        onView(isRoot()).perform(waitDisplayed(R.id.main_menu_image_button, 5000));
-
+        logoutIfNeeded();
+        performLogin(login, password);
         onView(withId(R.id.all_news_text_view)).perform(click());
         onView(withId(R.id.edit_news_material_button)).perform(click());
         onView(withId(R.id.add_news_image_view)).perform(click());

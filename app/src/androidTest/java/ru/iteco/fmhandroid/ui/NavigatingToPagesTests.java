@@ -57,7 +57,7 @@ import ru.iteco.fmhandroid.R;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
-public class NavigatingToPagesTests {
+public class NavigatingToPagesTests extends BaseTest {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -73,13 +73,7 @@ public class NavigatingToPagesTests {
         InstrumentationRegistry.getInstrumentation().getUiAutomation()
                 .executeShellCommand("settings put global animator_duration_scale 0");
     }
-//        @Before
-//    public void resetAppState() {
-//// Очистка данных приложения
-//        InstrumentationRegistry.getInstrumentation()
-//                .getUiAutomation()
-//                .executeShellCommand("pm clear ru.iteco.fmhandroid");
-//    }
+
     @Before
     public void registerIdlingResources() { //Подключаемся к “счетчику”
         IdlingRegistry.getInstance().register(EspressoIdlingResources.idlingResource);
@@ -101,19 +95,8 @@ public class NavigatingToPagesTests {
 
     @Test
     public void GoToMissionPage() {
-
-        ViewInteraction loginField = onView(
-                allOf(isAssignableFrom(EditText.class),
-                        isDescendantOfA(withId(R.id.login_text_input_layout))));
-        loginField.check(matches(isDisplayed()));
-        loginField.perform(replaceText(login), closeSoftKeyboard());
-        ViewInteraction passwordField = onView(
-                allOf(isAssignableFrom(EditText.class),
-                        isDescendantOfA(withId(R.id.password_text_input_layout))));
-        passwordField.check(matches(isDisplayed()));
-        passwordField.perform(replaceText(password), closeSoftKeyboard());
-        onView(withId(R.id.enter_button)).perform(click());
-        onView(isRoot()).perform(waitDisplayed(R.id.main_menu_image_button, 5000));
+        logoutIfNeeded();
+        performLogin(login, password);
         onView(withId(R.id.our_mission_image_button)).perform(click());
         ViewInteraction imageButton = onView(withId(R.id.our_mission_title_text_view));
         imageButton.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
@@ -122,18 +105,8 @@ public class NavigatingToPagesTests {
 
     @Test
     public void GoToNewsPage() {
-        ViewInteraction loginField = onView(
-                allOf(isAssignableFrom(EditText.class),
-                        isDescendantOfA(withId(R.id.login_text_input_layout))));
-        loginField.check(matches(isDisplayed()));
-        loginField.perform(replaceText(login), closeSoftKeyboard());
-        ViewInteraction passwordField = onView(
-                allOf(isAssignableFrom(EditText.class),
-                        isDescendantOfA(withId(R.id.password_text_input_layout))));
-        passwordField.check(matches(isDisplayed()));
-        passwordField.perform(replaceText(password), closeSoftKeyboard());
-        onView(withId(R.id.enter_button)).perform(click());
-        onView(isRoot()).perform(waitDisplayed(R.id.main_menu_image_button, 5000));
+        logoutIfNeeded();
+        performLogin(login, password);
         onView(withId(R.id.main_menu_image_button)).perform(click());
         onData(anything())
                 .inAdapterView(isAssignableFrom(android.widget.AdapterView.class))
@@ -145,18 +118,8 @@ public class NavigatingToPagesTests {
 
     @Test
     public void GoToAboutPage() {
-        ViewInteraction loginField = onView(
-                allOf(isAssignableFrom(EditText.class),
-                        isDescendantOfA(withId(R.id.login_text_input_layout))));
-        loginField.check(matches(isDisplayed()));
-        loginField.perform(replaceText(login), closeSoftKeyboard());
-        ViewInteraction passwordField = onView(
-                allOf(isAssignableFrom(EditText.class),
-                        isDescendantOfA(withId(R.id.password_text_input_layout))));
-        passwordField.check(matches(isDisplayed()));
-        passwordField.perform(replaceText(password), closeSoftKeyboard());
-        onView(withId(R.id.enter_button)).perform(click());
-        onView(isRoot()).perform(waitDisplayed(R.id.main_menu_image_button, 5000));
+        logoutIfNeeded();
+        performLogin(login, password);
         onView(withId(R.id.main_menu_image_button)).perform(click());
         onData(anything())
                 .inAdapterView(isAssignableFrom(android.widget.AdapterView.class))

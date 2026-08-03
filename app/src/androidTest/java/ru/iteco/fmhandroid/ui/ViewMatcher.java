@@ -198,7 +198,18 @@ public class ViewMatcher {
         }
     }
 
-
+    public static void waitForToastOrSnackbar(String text, long timeoutMs) {
+        UiDevice device = UiDevice.getInstance(
+                InstrumentationRegistry.getInstrumentation()
+        );
+        boolean found = device.wait(
+                Until.hasObject(By.text(text)),
+                timeoutMs
+        );
+        if (!found) {
+            throw new AssertionError("Сообщение '" + text + "' не найдено");
+        }
+    }
 
 
 }
