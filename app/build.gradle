@@ -20,7 +20,7 @@ android {
         versionCode 14
         versionName "1.0.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-
+//        testInstrumentationRunner "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
     }
     testOptions {
         animationsDisabled = true
@@ -103,7 +103,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.0'
-
+    androidTestImplementation 'io.qameta.allure:allure-kotlin-android:2.0.0'
 
 
 }

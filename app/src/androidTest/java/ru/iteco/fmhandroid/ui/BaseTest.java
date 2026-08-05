@@ -16,7 +16,6 @@ import static ru.iteco.fmhandroid.ui.ViewMatcher.waitDisplayed;
 
 import android.widget.EditText;
 
-import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewInteraction;
 
 import org.junit.runner.RunWith;
@@ -52,6 +51,11 @@ public class BaseTest {
 
         onView(withId(R.id.enter_button)).perform(click());
         onView(isRoot()).perform(waitDisplayed(R.id.main_menu_image_button, 5000));
+    }
+
+    protected void waitForAppStart() {
+        // Ждём, пока Splash Screen завершится
+        onView(isRoot()).perform(waitDisplayed(R.id.enter_button, 10000));
     }
 }
 

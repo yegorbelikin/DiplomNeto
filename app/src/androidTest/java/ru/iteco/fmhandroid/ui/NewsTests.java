@@ -3,47 +3,26 @@ package ru.iteco.fmhandroid.ui;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
-import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static ru.iteco.fmhandroid.ui.ViewMatcher.waitDisplayed;
 
-
-import android.view.View;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TimePicker;
 
-import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.IdlingRegistry;
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiDevice;
 
-import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -85,24 +64,6 @@ public class NewsTests extends BaseTest {
 
 
 
-//    @Before
-//    public void logoutIfNeeded() {
-//        try {
-//// Проверяем, есть ли кнопка выхода (значит мы залогинены)
-//            onView(withId(R.id.authorization_image_button))
-//                    .check(matches(isDisplayed()));
-//
-//            // Если залогинены — выходим
-//            onView(withId(R.id.authorization_image_button)).perform(click());
-//            onView(withText("Log out")).perform(click());
-//
-//            // Ждём возврата на экран логина
-//            onView(withId(R.id.enter_button))
-//                    .check(matches(isDisplayed()));
-//        } catch (Exception e) {
-//            // Если кнопки нет — значит уже на экране логина
-//        }
-//    }
 
     @After
     public void unregisterIdlingResources() { //Отключаемся от “счетчика”
@@ -125,6 +86,7 @@ public class NewsTests extends BaseTest {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
+        waitForAppStart();
         logoutIfNeeded();
         performLogin(login, password);
         onView(withId(R.id.all_news_text_view)).perform(click());
